@@ -17,26 +17,20 @@ startButton.addEventListener('click', () => {
   init();
 });
 
+startButton.addEventListener('touchstart', () => {
+  intro.style.display = 'none';
+  init();
+});
+
 closeButton.addEventListener('click', () => {
   popup.style.display = 'none';
   isPopupOpen = false;
 });
 
-// const descriptions = {
-//   cpp_logo: "Experience with C++: Developed several projects including a CHIP-8 emulator.",
-//   java_logo: "Experience with Java: Built various applications and contributed to large-scale systems.",
-//   rust_logo: "Experience with Rust: Created efficient and safe systems programming projects.",
-//   go_logo: "Experience with Go: Developed backend services and concurrent applications.",
-//   python_logo: "Experience with Python: Built data analysis tools and web applications.",
-//   js_logo: "Experience with JavaScript: Created dynamic web applications using various frameworks.",
-//   react_logo: "Experience with React: Developed interactive UIs and single-page applications.",
-//   heka_logo: "Experience with Heka: Contributed to log analysis and data processing projects.",
-//   twenty48_logo: "Experience with 2048: Implemented the 2048 game clone to understand algorithms.",
-//   chip8_logo: "Experience with CHIP-8: Built an emulator for the CHIP-8 virtual machine.",
-//   ecommerce_logo: "Experience with E-commerce: Developed online store platforms and payment systems.",
-//   audiokinetic_logo: "Experience with Audiokinetic: Worked on audio integration and effects processing.",
-//   dormakaba_logo: "Experience with Dormakaba: Contributed to security and access control systems."
-// };
+closeButton.addEventListener('touchstart', () => {
+  popup.style.display = 'none';
+  isPopupOpen = false;
+});
 
 const descriptions = {
   cpp_logo: {
