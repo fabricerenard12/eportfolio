@@ -9,6 +9,7 @@ const startButton = document.getElementById('startButton');
 const popup = document.getElementById('popup');
 const popupContent = document.getElementById('popupContent');
 const closeButton = document.getElementById('closeButton');
+const audio = new Audio('assets/audio/theme.mp3');
 
 let isPopupOpen = false;
 
@@ -17,9 +18,28 @@ startButton.addEventListener('click', () => {
   init();
 });
 
-closeButton.addEventListener('click', () => {
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+const closePopup = () => {
   popup.style.display = 'none';
   isPopupOpen = false;
+};
+
+closeButton.addEventListener('click', debounce(closePopup, 10));
+
+audio.addEventListener('ended', () => {
+  audio.currentTime = 0;
+  audio.play();
 });
 
 const descriptions = {
@@ -170,6 +190,7 @@ const descriptions = {
 };
 
 function init() {
+  audio.play();
   const w = window.innerWidth;
   const h = window.innerHeight;
   const scene = new THREE.Scene();
@@ -225,7 +246,6 @@ function init() {
   loadTextures(texturePaths).then(loadedTextures => {
     textures.push(...loadedTextures);
     createScene();
-    animate();
   }).catch((error) => {
     console.error('Error loading textures:', error);
   });
