@@ -17,17 +17,7 @@ startButton.addEventListener('click', () => {
   init();
 });
 
-startButton.addEventListener('touchstart', () => {
-  intro.style.display = 'none';
-  init();
-});
-
 closeButton.addEventListener('click', () => {
-  popup.style.display = 'none';
-  isPopupOpen = false;
-});
-
-closeButton.addEventListener('touchstart', () => {
   popup.style.display = 'none';
   isPopupOpen = false;
 });
@@ -309,6 +299,28 @@ function init() {
     const mouse = new THREE.Vector2();
 
     window.addEventListener('click', (event) => {
+      if (isPopupOpen) return;
+
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(boxGroup.children);
+
+      if (intersects.length > 0) {
+        const intersectedBox = intersects[0].object;
+        const textureName = intersectedBox.userData.textureName;
+        const description = descriptions[textureName];
+        if (description) {
+          setPopupContent(description);
+          popup.style.display = 'block';
+          isPopupOpen = true;
+        }
+      }
+    });
+
+    window.addEventListener('touchstart', (event) => {
       if (isPopupOpen) return;
 
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
