@@ -39,8 +39,38 @@ const descriptions = {
       },
     ]
   },
-  // java_logo: "Experience with Java: Built various applications and contributed to large-scale systems.",
-  // rust_logo: "Experience with Rust: Created efficient and safe systems programming projects.",
+  java_logo: {
+    title: "Java Projects", projects: [
+      {
+        title: "2048 Solver", link: "https://github.com/fabricerenard12/2048-Solver-but-better", description: [
+          "Implemented the 2048 game and a Monte Carlo based algorithm to solve it, achieving an average success rate of 85% in reaching the 2048 tile in under 30 seconds",
+          "Designed and implemented a thread pool to parallelize the solving algorithm, effectively reducing its execution time by over 90%"
+        ]
+      },
+      {
+        title: "Atari 2600 Emulator", link: "https://github.com/fabricerenard12/atari2600-emu", description: [
+          "Developed a cycle-accurate emulator for the Atari 2600, faithfully replicating the behavior of the original hardware",
+          "Implemented support for a variety of Atari 2600 games, ensuring compatibility and smooth performance across different game titles"
+        ]
+      },
+    ]
+  },
+  rust_logo: {
+    title: "Rust Projects", projects: [
+      {
+        title: "2048 Solver", link: "https://github.com/fabricerenard12/2048-Solver-but-better", description: [
+          "Implemented the 2048 game and a Monte Carlo based algorithm to solve it, achieving an average success rate of 85% in reaching the 2048 tile in under 30 seconds",
+          "Designed and implemented a thread pool to parallelize the solving algorithm, effectively reducing its execution time by over 90%"
+        ]
+      },
+      {
+        title: "E-Portfolio", link: "https://github.com/fabricerenard12/atari2600-emu", description: [
+          "Developed a cycle-accurate emulator for the Atari 2600, faithfully replicating the behavior of the original hardware",
+          "Implemented support for a variety of Atari 2600 games, ensuring compatibility and smooth performance across different game titles"
+        ]
+      },
+    ]
+  },
   go_logo: {
     title: "Go Projects", projects: [
       {
@@ -57,7 +87,22 @@ const descriptions = {
       },
     ]
   },
-  // python_logo: "Experience with Python: Built data analysis tools and web applications.",
+  python_logo: {
+    title: "Python Projects", projects: [
+      {
+        title: "2048 Solver", link: "https://github.com/fabricerenard12/2048-Solver-but-better", description: [
+          "Implemented the 2048 game and a Monte Carlo based algorithm to solve it, achieving an average success rate of 85% in reaching the 2048 tile in under 30 seconds",
+          "Designed and implemented a thread pool to parallelize the solving algorithm, effectively reducing its execution time by over 90%"
+        ]
+      },
+      {
+        title: "E-Portfolio", link: "https://github.com/fabricerenard12/atari2600-emu", description: [
+          "Developed a cycle-accurate emulator for the Atari 2600, faithfully replicating the behavior of the original hardware",
+          "Implemented support for a variety of Atari 2600 games, ensuring compatibility and smooth performance across different game titles"
+        ]
+      },
+    ]
+  },
   js_logo: {
     title: "JavaScript Projects", projects: [
       {
@@ -67,7 +112,7 @@ const descriptions = {
         ]
       },
       {
-        title: "Atari 2600 Emulator", link: "https://github.com/fabricerenard12/atari2600-emu", description: [
+        title: "E-Portfolio", link: "https://github.com/fabricerenard12/atari2600-emu", description: [
           "Developed a cycle-accurate emulator for the Atari 2600, faithfully replicating the behavior of the original hardware",
           "Implemented support for a variety of Atari 2600 games, ensuring compatibility and smooth performance across different game titles"
         ]
@@ -90,10 +135,17 @@ const descriptions = {
       },
     ]
   },
-  // heka_logo: "Experience with Heka: Contributed to log analysis and data processing projects.",
-  // twenty48_logo: "Experience with 2048: Implemented the 2048 game clone to understand algorithms.",
-  // chip8_logo: "Experience with CHIP-8: Built an emulator for the CHIP-8 virtual machine.",
-  // ecommerce_logo: "Experience with E-commerce: Developed online store platforms and payment systems.",
+  heka_logo: {
+    title: "Engineering club: Heka PolyMTL", projects: [
+      {
+        title: "Member of the computer engineering team (Jan. 2023 - Present)", link: "https://heka.polymtl.ca/", description: [
+          "Collaborated with a multi-disciplinary team to develop a robotic arm designed to assist individuals with motor disorders",
+          "Developed a Java-based data transmission tool facilitating communication between a computer and the arm's microcontroller via UART",
+          "Integrated a vocal interface into the robotic arm control system using Python, enabling hands-free operation for users through advanced speech recognition"
+        ]
+      },
+    ]
+  },
   audiokinetic_logo: {
     title: "Co-op #1: Audiokinetic SIE", projects: [
       {
@@ -108,7 +160,7 @@ const descriptions = {
   dormakaba_logo: {
     title: "Co-op #2: Dormakaba Canada", projects: [
       {
-        title: "Software Developer Intern (May. 2024 - Aug. 2024)", link: "https://www.dormakaba.com/ca-en", description: [
+        title: "Firmware Developer Intern (May. 2024 - Aug. 2024)", link: "https://www.dormakaba.com/ca-en", description: [
           "Collaborated in the development and debugging of firmware for microcontrollers in embedded systems in C, effectively improving device performance",
           "Developed and implemented a comprehensive firmware test system using Python, enhancing the efficiency and accuracy of firmware validation processes"
         ]
@@ -151,9 +203,6 @@ function init() {
     'js_logo.png',
     'react_logo.png',
     'heka_logo.png',
-    // 'twenty48_logo.png',
-    // 'chip8_logo.png',
-    // 'ecommerce_logo.png',
     'audiokinetic_logo.png',
     'dormakaba_logo.png'
   ];
@@ -164,7 +213,7 @@ function init() {
     return Promise.all(paths.map(path => {
       return new Promise((resolve, reject) => {
         textureLoader.load(
-          path,
+          "assets/img/" + path,
           (texture) => resolve({ path, texture }),
           undefined,
           (err) => reject(err)
@@ -320,62 +369,37 @@ function init() {
       }
     });
 
-    window.addEventListener('touchstart', (event) => {
-      if (isPopupOpen) return;
-
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      raycaster.setFromCamera(mouse, camera);
-
-      const intersects = raycaster.intersectObjects(boxGroup.children);
-
-      if (intersects.length > 0) {
-        const intersectedBox = intersects[0].object;
-        const textureName = intersectedBox.userData.textureName;
-        const description = descriptions[textureName];
-        if (description) {
-          setPopupContent(description);
-          popup.style.display = 'block';
-          isPopupOpen = true;
-        }
-      }
-    });
-
     function setPopupContent(description) {
-      popupContent.innerHTML = '';
+      popupContent.textContent = '';
 
-      if (typeof description === 'string') {
-        popupContent.textContent = description;
-      } else {
-        const title = document.createElement('h2');
-        title.textContent = description.title;
-        popupContent.appendChild(title);
 
-        description.projects.forEach(project => {
-          const projectLink = document.createElement('a');
-          projectLink.href = project.link;
-          projectLink.target = '_blank';
-          projectLink.textContent = 'Link';
-          projectLink.style.color = 'white';
+      const title = document.createElement('h2');
+      title.textContent = description.title;
+      popupContent.appendChild(title);
 
-          const projectTitle = document.createElement('h3');
-          projectTitle.textContent = project.title;
+      description.projects.forEach(project => {
+        const projectLink = document.createElement('a');
+        projectLink.href = project.link;
+        projectLink.target = '_blank';
+        projectLink.textContent = 'Link';
+        projectLink.style.color = 'white';
 
-          popupContent.appendChild(projectTitle);
-          popupContent.appendChild(projectLink);
+        const projectTitle = document.createElement('h3');
+        projectTitle.textContent = project.title;
 
-          const unorderedList = document.createElement('ul');
-          project.description.forEach(desc => {
-            const descPoint = document.createElement('li');
-            descPoint.textContent = desc;
-            descPoint.classList.add('popup-description');
-            unorderedList.appendChild(descPoint);
-          });
+        popupContent.appendChild(projectTitle);
+        popupContent.appendChild(projectLink);
 
-          popupContent.appendChild(unorderedList);
+        const unorderedList = document.createElement('ul');
+        project.description.forEach(desc => {
+          const descPoint = document.createElement('li');
+          descPoint.textContent = desc;
+          descPoint.classList.add('popup-description');
+          unorderedList.appendChild(descPoint);
         });
-      }
+
+        popupContent.appendChild(unorderedList);
+      });
     }
 
     let initialAnimationDone = false;
